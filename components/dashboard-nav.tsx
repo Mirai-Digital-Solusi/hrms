@@ -8,12 +8,22 @@ import { cn } from '@/lib/utils';
 import { NavItem } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
 import { useSidebar } from '@/hooks/useSidebar';
+import { ChevronRight } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
 } from './ui/tooltip';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface DashboardNavProps {
   items: NavItem[];
@@ -32,9 +42,7 @@ export function DashboardNav({
   if (!items?.length) {
     return null;
   }
-
   console.log('isActive', isMobileNav, isMinimized);
-
   return (
     <nav className="grid items-start gap-2">
       <TooltipProvider>

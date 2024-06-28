@@ -13,16 +13,16 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 
-const breadcrumbItems = [{ title: 'Kehadiran', link: '/dashboard/kehadiran' }];
+const breadcrumbItems = [{ title: 'Time Off', link: '/dashboard/leave' }];
 export default function page() {
   return (
     <>
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
-        <NavigationMenu className="mb-6">
+        <NavigationMenu>
           <NavigationMenuList className='gap-2'>
             <NavigationMenuItem>
               <Link href="/dashboard/kehadiran">
-              <Button variant="default">Attendance</Button>
+              <Button variant="secondary">Attendance</Button>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -32,7 +32,7 @@ export default function page() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/dashboard/leave" legacyBehavior passHref>
-              <Button variant="secondary">Time Off</Button>
+              <Button variant="default">Time Off</Button>
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>

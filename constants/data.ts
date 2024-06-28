@@ -234,8 +234,8 @@ export const kehadirans: Kehadiran[] = [
     divisi: "IT",
     role: 'Fullstack Developer',
     verified: false,
-    status: 'Masuk Tepat Waktu',
-    checkIn: "08:00",
+    status: 'Tidak Check In',
+    checkIn: "",
     checkOut: "17:30",
   },
   {
@@ -244,9 +244,9 @@ export const kehadirans: Kehadiran[] = [
     divisi: "IT",
     role: 'Product Manager',
     verified: false,
-    status: 'Masuk Tepat Waktu',
+    status: 'Tidak Check Out',
     checkIn: "08:22",
-    checkOut: "18:29",
+    checkOut: "",
   },
 ]
 
