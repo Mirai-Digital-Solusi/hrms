@@ -49,9 +49,10 @@ export function DashboardNav({
         {items.map((item, index) => {
           const Icon = Icons[item.icon || 'arrowRight'];
           return (
-            item.href && (
+            item.label && (
               <Tooltip key={index}>
                 <TooltipTrigger asChild>
+                {item.href && (
                   <Link
                     href={item.disabled ? '/' : item.href}
                     className={cn(
@@ -71,6 +72,7 @@ export function DashboardNav({
                       ''
                     )}
                   </Link>
+                )}
                 </TooltipTrigger>
                 <TooltipContent
                   align="center"
@@ -80,6 +82,9 @@ export function DashboardNav({
                 >
                   {item.title}
                 </TooltipContent>
+                {!item.href && (
+                    <span className="ml-3 truncate">{item.title}</span>
+                )}
               </Tooltip>
             )
           );

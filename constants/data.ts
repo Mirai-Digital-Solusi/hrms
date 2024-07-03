@@ -110,9 +110,8 @@ export const users: User[] = [
     role: 'Data Analyst',
     verified: false,
     status: 'Active'
-  },
+  }
 ];
-
 
 export const pegawais: Pegawai[] = [
   {
@@ -194,61 +193,61 @@ export const pegawais: Pegawai[] = [
     role: 'Data Analyst',
     verified: false,
     status: 'Active'
-  },
+  }
 ];
 
 export const kehadirans: Kehadiran[] = [
   {
     id: 1,
     name: 'Candice Schiner',
-    divisi: "IT",
+    divisi: 'IT',
     role: 'Frontend Developer',
     verified: false,
     status: 'Masuk Tepat Waktu',
-    checkIn: "08:15",
-    checkOut: "17:49",
+    checkIn: '08:15',
+    checkOut: '17:49'
   },
   {
     id: 2,
     name: 'John Doe',
-    divisi: "IT",
+    divisi: 'IT',
     role: 'Backend Developer',
     verified: false,
     status: 'Masuk Tepat Waktu',
-    checkIn: "08:22",
-    checkOut: "18:49",
+    checkIn: '08:22',
+    checkOut: '18:49'
   },
   {
     id: 3,
     name: 'Alice Johnson',
-    divisi: "IT",
+    divisi: 'IT',
     role: 'UI Designer',
     verified: false,
     status: 'Terlambat',
-    checkIn: "08:40",
-    checkOut: "17:33",
+    checkIn: '08:40',
+    checkOut: '17:33'
   },
   {
     id: 4,
     name: '	David Smith',
-    divisi: "IT",
+    divisi: 'IT',
     role: 'Fullstack Developer',
     verified: false,
     status: 'Tidak Check In',
-    checkIn: "",
-    checkOut: "17:30",
+    checkIn: '',
+    checkOut: '17:30'
   },
   {
     id: 5,
     name: 'Emma Wilson',
-    divisi: "IT",
+    divisi: 'IT',
     role: 'Product Manager',
     verified: false,
     status: 'Tidak Check Out',
-    checkIn: "08:22",
-    checkOut: "",
-  },
-]
+    checkIn: '08:22',
+    checkOut: ''
+  }
+];
 
 export type Employee = {
   id: number;
@@ -271,6 +270,10 @@ export type Employee = {
 
 export const navItems: NavItem[] = [
   {
+    title: 'Admin',
+    label: 'Admin'
+  },
+  {
     title: 'Dashboard',
     href: '/dashboard',
     icon: 'dashboard',
@@ -288,6 +291,16 @@ export const navItems: NavItem[] = [
     icon: 'userCheck',
     label: 'Kehadiran'
   },
+  {
+    title: 'Personal',
+    label: 'Personal'
+  },
+  {
+    title: 'Team Board',
+    href: '/dashboard/kanban',
+    icon: 'kanban',
+    label: 'Team Board'
+  }
   // {
   //   title: 'User',
   //   href: '/dashboard/user',
