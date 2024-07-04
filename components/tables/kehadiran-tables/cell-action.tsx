@@ -21,6 +21,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  console.log("test kehadiran", data);
+
+  const handleClick = () => {
+    router.push(`/dashboard/kehadiran/${data.id}`);
+  };
 
   const onConfirm = async () => {};
 
@@ -43,7 +48,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/kehadiran/${data.id}`)}
+            onClick={handleClick}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

@@ -1,23 +1,29 @@
 import BreadCrumb from '@/components/breadcrumb';
-import { ProductForm } from '@/components/forms/product-form';
+import { KehadiranForm } from '@/components/forms/kehadiran-form/create-kehadiran';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { kehadirans } from '@/constants/data';
 import React from 'react';
 
-export default function Page() {
+export default function Page({params}:any) { 
   const breadcrumbItems = [
     { title: 'Kehadiran', link: '/dashboard/kehadiran' },
-    { title: 'Create', link: '/dashboard/kehadiran/create' }
+    { title: params.kehadiranId === 'new' ? 'Create' : 'Update', link: params.kehadiranId === 'new' ? '/dashboard/kehadiran/create' : '/dashboard/kehadiran/update' }
   ];
+  
+  const dataInitial = kehadirans.find((item) => item.id === parseInt(params.kehadiranId));
+
+  
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-5">
         <BreadCrumb items={breadcrumbItems} />
-        <ProductForm
+        
+        <KehadiranForm
           categories={[
             { _id: 'shirts', name: 'shirts' },
             { _id: 'pants', name: 'pants' }
           ]}
-          initialData={null}
+          initialData={dataInitial}
           key={null}
         />
       </div>
