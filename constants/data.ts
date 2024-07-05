@@ -1,5 +1,5 @@
 import { Icons } from '@/components/icons';
-import { NavItem, SidebarNavItem } from '@/types';
+import { KehadiranNavItem, NavItem, SidebarNavItem } from '@/types';
 
 export type User = {
   id: number;
@@ -267,6 +267,54 @@ export type Employee = {
   job: string;
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
+
+export const kehadiranNavItems: KehadiranNavItem[] = [
+  {
+    title: 'Attendance',
+    subNav: [
+      {
+        href: '/dashboard/kehadiran',
+        label: 'Attendance List',
+        description: 'List all data attendance'
+      },
+      {
+        href: '/dashboard/kehadiran-approval',
+        label: 'Approval',
+        description: 'List all attendance request'
+      }
+    ]
+  },
+  {
+    title: 'Overtime',
+    subNav: [
+      {
+        href: '/dashboard/overtime',
+        label: 'Overtime List',
+        description: 'List all data attendance'
+      },
+      {
+        href: '/dashboard/overtime-approval',
+        label: 'Approval',
+        description: 'List all overtime request'
+      }
+    ]
+  },
+  {
+    title: 'Time-off',
+    subNav: [
+      {
+        href: '/dashboard/timeoff',
+        label: 'Time-off List',
+        description: 'List all data attendance'
+      },
+      {
+        href: '/dashboard/timeoff-approval',
+        label: 'Approval',
+        description: 'List all time-off request'
+      }
+    ]
+  }
+];
 
 export const navItems: NavItem[] = [
   {

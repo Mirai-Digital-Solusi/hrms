@@ -10,6 +10,17 @@ export interface NavItem {
   description?: string;
 }
 
+export interface KehadiranNavItem {
+  title: string;
+  subNav: KehadiranNavItemChild[];
+}
+
+interface KehadiranNavItemChild {
+  href?: string;
+  label?: string;
+  description?: string;
+}
+
 export interface NavItemWithChildren extends NavItem {
   items: NavItemWithChildren[];
 }

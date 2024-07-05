@@ -1,5 +1,7 @@
 "use client"
 import * as React from "react"
+import { KehadiranNavItem } from '@/types';
+import { usePathname } from 'next/navigation';
 import { cn } from "@/lib/utils"
 import {
     NavigationMenu,
@@ -10,50 +12,37 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 
-export function NavigationKehadiran() {
+interface NavigationKehadiranProps {
+    items: KehadiranNavItem[];
+}
+
+export function NavigationKehadiran({ items }: NavigationKehadiranProps) {
+
+    const path = usePathname();
+
     return (
         <div>
             <NavigationMenu className="mb-6">
                 <NavigationMenuList className='gap-4'>
-                    <NavigationMenuItem className="bg-gray-100 rounded-md">
-                        <NavigationMenuTrigger className="bg-gray-200 rounded-md">Attendance</NavigationMenuTrigger>
-                        <NavigationMenuContent className="rounded-md">
-                            <ul className="grid w-[500px] gao-2 grid-cols-2 p-4">
-                                <ListItem className="bg-gray-100" href="/dashboard/kehadiran" title="Attendance List">
-                                    List all data attendance
-                                </ListItem>
-                                <ListItem href="/dashboard/kehadiran" title="Attendance Approval">
-                                    Attendance entries needing authoritative validation
-                                </ListItem>
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>Overtime</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid w-[500px] grid-cols-2 p-4">
-                                <ListItem href="/dashboard/overtime" title="Overtime List">
-                                    List all data overtime
-                                </ListItem>
-                                <ListItem href="/dashboard/overtime" title="Overtime Approval">
-                                    Overtime entries needing authoritative validation
-                                </ListItem>
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>Time Off</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid w-[500px] grid-cols-2 p-4">
-                                <ListItem href="/dashboard/leave" title="Time-off List">
-                                    List all data time off
-                                </ListItem>
-                                <ListItem href="/dashboard/leave" title="Time-off Approval">
-                                    Time-off entries needing authoritative validation
-                                </ListItem>
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
+                    {items.map((item, index) => {
+                        return (
+                            <NavigationMenuItem className="rounded-md" key={index}>
+                                <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
+                                <NavigationMenuContent className="rounded-md">
+                                    <ul className="grid w-[500px] gao-2 grid-cols-2 p-4">
+                                        {item.subNav.map((subItem, subIndex) => {
+                                            return (
+                                                <ListItem key={subIndex} className={cn(path === subItem.href ? 'bg-accent' : 'transparent')} href={subItem.href} title={subItem.label}>
+                                                    {subItem.description}
+                                                </ListItem>
+                                            )
+                                        })}
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        )
+                    })}
+
                 </NavigationMenuList>
             </NavigationMenu>
         </div>
