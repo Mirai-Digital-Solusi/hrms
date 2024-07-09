@@ -29,7 +29,7 @@ export function NavigationKehadiran({ items }: NavigationKehadiranProps) {
                             <NavigationMenuItem key={index} className="rounded-md border-slate-500 border-2 " >
                                 <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
                                 <NavigationMenuContent className="rounded-md">
-                                    <ul className="grid w-[500px] gap-2 grid-cols-2 p-4">
+                                    <ul className="grid w-[500px] gap-4 grid-cols-2 p-4">
                                         {item.subNav.map((subItem, subIndex) => {
                                             return (
                                                 <ListItem key={subIndex} className={cn(path === subItem.href ? 'bg-accent' : 'transparent')} href={subItem.href} title={subItem.label}>

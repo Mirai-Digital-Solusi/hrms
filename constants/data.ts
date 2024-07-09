@@ -278,7 +278,7 @@ export const kehadiranNavItems: KehadiranNavItem[] = [
         description: 'List all data attendance'
       },
       {
-        href: '/dashboard/kehadiran-approval',
+        href: '/dashboard/kehadiran/approval',
         label: 'Approval',
         description: 'List all attendance request'
       }
@@ -288,12 +288,12 @@ export const kehadiranNavItems: KehadiranNavItem[] = [
     title: 'Overtime',
     subNav: [
       {
-        href: '/dashboard/overtime',
+        href: '/dashboard/kehadiran/overtime',
         label: 'Overtime List',
         description: 'List all data attendance'
       },
       {
-        href: '/dashboard/overtime-approval',
+        href: '/dashboard/kehadiran/overtime/approval',
         label: 'Approval',
         description: 'List all overtime request'
       }
@@ -303,12 +303,12 @@ export const kehadiranNavItems: KehadiranNavItem[] = [
     title: 'Time-off',
     subNav: [
       {
-        href: '/dashboard/timeoff',
+        href: '/dashboard/kehadiran/leave',
         label: 'Time-off List',
         description: 'List all data attendance'
       },
       {
-        href: '/dashboard/timeoff-approval',
+        href: '/dashboard/kehadiran/leave/approval',
         label: 'Approval',
         description: 'List all time-off request'
       }

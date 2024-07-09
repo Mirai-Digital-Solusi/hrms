@@ -2,20 +2,15 @@ import BreadCrumb from '@/components/breadcrumb';
 import { columns } from '@/components/tables/employee-tables/columns';
 import { OvertimeTable } from '@/components/tables/overtime-tables/overtime-table';
 import { buttonVariants } from '@/components/ui/button';
+import { NavigationKehadiran } from '@/components/navigation-menu/navigation-kehadiran/kehadiran';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { Employee } from '@/constants/data';
+import { Employee, kehadiranNavItems } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu"
 
-const breadcrumbItems = [{ title: 'Overtime', link: '/dashboard/overtime' }];
+const breadcrumbItems = [{ title: 'Overtime', link: '/dashboard/kehadiran/overtime' }];
 type paramsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
@@ -39,25 +34,7 @@ export default async function page({ searchParams }: paramsProps) {
   return (
     <>
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
-        <NavigationMenu>
-          <NavigationMenuList className='gap-2'>
-            <NavigationMenuItem>
-              <Link href="/dashboard/kehadiran">
-              <Button variant="secondary">Attendance</Button>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/dashboard/overtime" legacyBehavior passHref>
-              <Button variant="default">Overtime</Button>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/dashboard/leave" legacyBehavior passHref>
-              <Button variant="secondary">Time Off</Button>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+      <NavigationKehadiran items={kehadiranNavItems} />
 
         <BreadCrumb items={breadcrumbItems} />
         <div className="flex items-start justify-between">
