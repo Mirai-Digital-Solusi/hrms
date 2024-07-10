@@ -1,5 +1,5 @@
 import BreadCrumb from '@/components/breadcrumb';
-import { KehadiranClient } from '@/components/tables/kehadiran-tables/client';
+import { KehadiranClient } from '@/components/tables/kehadiran/main/list-kehadiran/client';
 import { NavigationKehadiran } from '@/components/navigation-menu/navigation-kehadiran/kehadiran';
 import { kehadirans, kehadiranNavItems } from '@/constants/data';
 
