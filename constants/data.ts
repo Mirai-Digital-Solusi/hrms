@@ -327,12 +327,12 @@ export const navItems: NavItem[] = [
     icon: 'dashboard',
     label: 'Dashboard'
   },
-  {
-    title: 'Pegawai',
-    href: '/dashboard/pegawai',
-    icon: 'users',
-    label: 'Pegawai'
-  },
+  // {
+  //   title: 'Pegawai',
+  //   href: '/dashboard/pegawai',
+  //   icon: 'users',
+  //   label: 'Pegawai'
+  // },
   {
     title: 'Kehadiran',
     href: '/dashboard/kehadiran',
@@ -348,19 +348,19 @@ export const navItems: NavItem[] = [
     href: '/dashboard/kanban',
     icon: 'kanban',
     label: 'Team Board'
-  }
+  },
   // {
   //   title: 'User',
   //   href: '/dashboard/user',
   //   icon: 'user',
   //   label: 'user'
   // },
-  // {
-  //   title: 'Employee',
-  //   href: '/dashboard/employee',
-  //   icon: 'employee',
-  //   label: 'employee'
-  // },
+  {
+    title: 'Employee',
+    href: '/dashboard/employee',
+    icon: 'employee',
+    label: 'employee'
+  },
   // {
   //   title: 'Profile',
   //   href: '/dashboard/profile',
