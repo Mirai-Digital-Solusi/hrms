@@ -37,12 +37,12 @@ export const columns: ColumnDef<Employee>[] = [
     header: 'GENDER'
   },
   {
-    accessorKey: 'status',
-    header: 'STATUS'
-  },
-  {
     accessorKey: 'job',
     header: 'JOB'
+  },
+  {
+    accessorKey: 'status',
+    header: 'STATUS'
   },
   {
     id: 'actions',
