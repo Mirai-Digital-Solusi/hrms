@@ -30,21 +30,23 @@ export default async function page({ searchParams }: paramsProps) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
   )
 
-  // const res = await fetch(
-  //   `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-  //     (country ? `&search=${country}` : '')
-  // );
+  const { count } = await supabase
+    .from('employees')
+    .select('*', { count: 'exact', head: true });
+
+  const totalUsers = Math.ceil(count ?? 0 / 10);
 
   const { data, error } = await supabase
-  .from('employees')
-  .select()
-  .ilike('name', `%${name}%`);
+    .from('employees')
+    .select()
+    .order('id', { ascending: true })
+    .range(offset, offset + 9)
+    .ilike('name', `%${name}%`);
 
   if (error) {
     throw error;
   }
 
-  const totalUsers = data?.length ?? 0; //1000
   const pageCount = Math.ceil(totalUsers / pageLimit);
   const employee: Employee[] = data ?? [];
   return (
