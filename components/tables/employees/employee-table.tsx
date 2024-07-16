@@ -57,6 +57,7 @@ export function EmployeeTable<TData, TValue>({
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50]
 }: DataTableProps<TData, TValue>) {
+  console.log("data ini", data)
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

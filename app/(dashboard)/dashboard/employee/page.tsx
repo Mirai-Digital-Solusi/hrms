@@ -24,6 +24,7 @@ export default async function page({ searchParams }: paramsProps) {
   const pageLimit = Number(searchParams.limit) || 10;
   const name = searchParams.search || '';
   const offset = (page - 1) * pageLimit;
+  
 
   const supabase = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
@@ -32,7 +33,7 @@ export default async function page({ searchParams }: paramsProps) {
 
   const { count } = await supabase
     .from('employees')
-    .select('*', { count: 'exact', head: true });
+    .select('id', { count: 'exact', head: true });
 
   const totalUsers = Math.ceil(count ?? 0 / 10);
 
@@ -40,11 +41,15 @@ export default async function page({ searchParams }: paramsProps) {
     .from('employees')
     .select()
     .order('id', { ascending: true })
-    .range(offset, offset + 9)
+    .range(offset === 0 ? 0 : offset+1, offset + pageLimit)
     .ilike('name', `%${name}%`);
 
   if (error) {
     throw error;
+  }
+
+  if (!data || data.length === 0) {
+    return { data: [], totalUsers };
   }
 
   const pageCount = Math.ceil(totalUsers / pageLimit);
@@ -74,7 +79,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={columns}
           totalUsers={totalUsers}
-          data={employee}
+          data={data}
           pageCount={pageCount}
         />
       </div>
