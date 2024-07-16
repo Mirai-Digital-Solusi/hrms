@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Database } from '@/types/supabase';
 import { createClient } from '@supabase/supabase-js'
+import { AlertModal } from '@/components/modal/alert-modal';
 import {
     Form,
     FormControl,
@@ -116,12 +117,12 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                       ])
                     .select()
             }
-            router.refresh();
             router.push(`/dashboard/employee`);
+            router.refresh();
             toast({
-                variant: 'destructive',
-                title: 'Uh oh! Something went wrong.',
-                description: 'There was a problem with your request.'
+                variant: 'success',
+                title: 'Success.',
+                description: 'Operation successful!'
             });
         } catch (error: any) {
             toast({
@@ -137,9 +138,12 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
     const onDelete = async () => {
         try {
             setLoading(true);
-            //   await axios.delete(`/api/${params.storeId}/Employees/${params.EmployeeId}`);
+            const { error } = await supabase
+                .from('employees')
+                .delete()
+                .eq('id', initialData[0].id)
+            router.push(`/dashboard/employee`);
             router.refresh();
-            router.push(`/${params.storeId}/Employees`);
         } catch (error: any) {
         } finally {
             setLoading(false);
@@ -151,12 +155,12 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
 
     return (
         <>
-            {/* <AlertModal
+            <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
         loading={loading}
-      /> */}
+      />
             <div className="flex items-center justify-between">
                 <Heading title={title} description={description} />
                 {initialData && (
