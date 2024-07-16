@@ -109,21 +109,28 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                     .update(value)
                     .eq('id', value.id)
                     .select()
+                router.refresh();
+                toast({
+                    variant: 'success',
+                    title: 'Update Success.',
+                    description: 'Update operation is successful!'
+                });
             } else {
                 const { data, error } = await supabase
                     .from('employees')
                     .insert([
                         { name: value.name, gender: value.gender, job: value.job, status: value.status },
-                      ])
+                    ])
                     .select()
+                router.push(`/dashboard/employee`);
+                router.refresh();
+                toast({
+                    variant: 'success',
+                    title: 'Insert Success.',
+                    description: 'Insert operation is successful!'
+                });
             }
-            router.push(`/dashboard/employee`);
-            router.refresh();
-            toast({
-                variant: 'success',
-                title: 'Success.',
-                description: 'Operation successful!'
-            });
+
         } catch (error: any) {
             toast({
                 variant: 'destructive',
@@ -156,11 +163,11 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
     return (
         <>
             <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                onConfirm={onDelete}
+                loading={loading}
+            />
             <div className="flex items-center justify-between">
                 <Heading title={title} description={description} />
                 {initialData && (
