@@ -1,5 +1,6 @@
 import BreadCrumb from '@/components/breadcrumb';
-import { createClient } from '@supabase/supabase-js'
+// import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/utils/supabase/server'
 import { columns } from '@/components/tables/employees/columns';
 import { EmployeeTable } from '@/components/tables/employees/employee-table';
 import { buttonVariants } from '@/components/ui/button';
@@ -26,10 +27,7 @@ export default async function page({ searchParams }: paramsProps) {
   const offset = (page - 1) * pageLimit;
   
 
-  const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
-  )
+  const supabase = createClient()
 
   const { count } = await supabase
     .from('employees')
@@ -41,7 +39,7 @@ export default async function page({ searchParams }: paramsProps) {
     .from('employees')
     .select()
     .order('id', { ascending: true })
-    .range(offset === 0 ? 0 : offset+1, offset + pageLimit)
+    .range(offset, offset + pageLimit - 1)
     .ilike('name', `%${name}%`);
 
   if (error) {
