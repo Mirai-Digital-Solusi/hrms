@@ -46,10 +46,6 @@ export default async function page({ searchParams }: paramsProps) {
     throw error;
   }
 
-  if (!data || data.length === 0) {
-    return { data: [], totalUsers };
-  }
-
   const pageCount = Math.ceil(totalUsers / pageLimit);
   const employee: Employee[] = data ?? [];
   return (
@@ -77,7 +73,7 @@ export default async function page({ searchParams }: paramsProps) {
           pageNo={page}
           columns={columns}
           totalUsers={totalUsers}
-          data={data}
+          data={employee}
           pageCount={pageCount}
         />
       </div>
