@@ -40,6 +40,18 @@ export type Overtime = {
   description: string;
 };
 
+export type Leave = {
+  id: number;
+  name: string;
+  division: string;
+  role: string;
+  type: string;
+  date_from: string;
+  date_to: string;
+  status: string;
+  description: string;
+};
+
 export const users: User[] = [
   {
     id: 1,

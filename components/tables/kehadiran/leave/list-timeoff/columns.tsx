@@ -1,10 +1,10 @@
 'use client';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Leave } from '@/constants/data';
 import { ColumnDef } from '@tanstack/react-table';
 import { CellAction } from './cell-action';
-import { Kehadiran } from '@/constants/data';
-import { Checkbox } from '@/components/ui/checkbox';
 
-export const columns: ColumnDef<Kehadiran>[] = [
+export const columns: ColumnDef<Leave>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -25,28 +25,40 @@ export const columns: ColumnDef<Kehadiran>[] = [
     enableHiding: false
   },
   {
+    accessorKey: 'id',
+    header: 'ID'
+  },
+  {
     accessorKey: 'name',
     header: 'NAME'
   },
   {
-    accessorKey: 'divisi',
-    header: 'Divisi'
+    accessorKey: 'division',
+    header: 'DIVISION'
   },
   {
     accessorKey: 'role',
     header: 'ROLE'
   },
   {
+    accessorKey: 'type',
+    header: 'TYPE'
+  },
+  {
+    accessorKey: 'date_from',
+    header: 'DATE FROM'
+  },
+  {
+    accessorKey: 'date_to',
+    header: 'DATE TO'
+  },
+  {
     accessorKey: 'status',
     header: 'STATUS'
   },
   {
-    accessorKey: 'checkIn',
-    header: 'CHECK IN'
-  },
-  {
-    accessorKey: 'checkOut',
-    header: 'CHECK OUT'
+    accessorKey: 'description',
+    header: 'DESCRIPTION'
   },
   {
     id: 'actions',
