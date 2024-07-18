@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Employee } from '@/constants/data';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; //useParams,
 import { useToast } from '../../ui/use-toast';
 import { useState } from 'react';
 
@@ -26,7 +26,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const supabase = createClient()
   const { toast } = useToast();
 
-  const onConfirm = async () => { };
+  //const onConfirm = async () => { };
 
   const onDelete = async () => {
     try {

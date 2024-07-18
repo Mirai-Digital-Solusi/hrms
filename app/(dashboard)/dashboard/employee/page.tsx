@@ -7,7 +7,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { Employee } from '@/constants/data';
-import { Database } from '@/types/supabase';
+// import { Database } from '@/types/supabase';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
@@ -25,13 +25,14 @@ export default async function page({ searchParams }: paramsProps) {
   const pageLimit = Number(searchParams.limit) || 10;
   const name = searchParams.search || '';
   const offset = (page - 1) * pageLimit;
-  
+
 
   const supabase = createClient()
 
   const { count } = await supabase
     .from('employees')
-    .select('id', { count: 'exact', head: true });
+    .select('id', { count: 'exact', head: true })
+    .ilike('name', `%${name}%`);;
 
   const totalUsers = Math.ceil(count ?? 0 / 10);
 

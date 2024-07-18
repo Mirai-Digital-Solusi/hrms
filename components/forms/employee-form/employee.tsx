@@ -13,7 +13,7 @@ import { AlertModal } from '@/components/modal/alert-modal';
 import {
     Form,
     FormControl,
-    FormDescription,
+    //FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -21,27 +21,29 @@ import {
 } from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-// import FileUpload from "@/components/FileUpload";
 import { useToast } from '../../ui/use-toast';
-import FileUpload from '../../file-upload';
-const ImgSchema = z.object({
-    fileName: z.string(),
-    name: z.string(),
-    fileSize: z.number(),
-    size: z.number(),
-    fileKey: z.string(),
-    key: z.string(),
-    fileUrl: z.string(),
-    url: z.string()
-});
+// import {
+//     Select,
+//     SelectContent,
+//     SelectItem,
+//     SelectTrigger,
+//     SelectValue
+// } from '@/components/ui/select';
+// import { Checkbox } from '@/components/ui/checkbox';
+// import FileUpload from "@/components/FileUpload";
+// import FileUpload from '../../file-upload';
+
+
+// const ImgSchema = z.object({
+//     fileName: z.string(),
+//     name: z.string(),
+//     fileSize: z.number(),
+//     size: z.number(),
+//     fileKey: z.string(),
+//     key: z.string(),
+//     fileUrl: z.string(),
+//     url: z.string()
+// });
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
     id: z.union([z.string(), z.number(), z.array(z.string()), z.undefined()]),
@@ -67,15 +69,15 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
     initialData,
     categories
 }) => {
-    const params = useParams();
+    //const params = useParams();
     const router = useRouter();
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [imgLoading, setImgLoading] = useState(false);
+    //const [imgLoading, setImgLoading] = useState(false);
     const title = initialData ? 'Edit Employee' : 'Create Employee';
     const description = initialData ? 'Edit a Employee.' : 'Add a new Employee';
-    const toastMessage = initialData ? 'Employee updated.' : 'Employee created.';
+    //const toastMessage = initialData ? 'Employee updated.' : 'Employee created.';
     const action = initialData ? 'Save changes' : 'Create';
 
     const supabase = createClient<Database>(
@@ -99,7 +101,6 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
     });
 
     const onSubmit = async (value: EmployeeFormValues) => {
-        console.log("tests", value)
         try {
             setLoading(true);
             if (initialData) {
