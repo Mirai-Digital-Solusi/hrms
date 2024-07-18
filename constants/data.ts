@@ -22,12 +22,11 @@ export type Pegawai = {
 export type Kehadiran = {
   id: number;
   name: string;
-  divisi: string;
+  division: string;
   role: string;
-  verified: boolean;
   status: string;
-  checkIn: string;
-  checkOut: string;
+  check_in: string;
+  check_out: string;
 };
 
 export const users: User[] = [
@@ -196,58 +195,58 @@ export const pegawais: Pegawai[] = [
   }
 ];
 
-export const kehadirans: Kehadiran[] = [
-  {
-    id: 1,
-    name: 'Candice Schiner',
-    divisi: 'IT',
-    role: 'Frontend Developer',
-    verified: false,
-    status: 'Masuk Tepat Waktu',
-    checkIn: '08:15',
-    checkOut: '17:49'
-  },
-  {
-    id: 2,
-    name: 'John Doe',
-    divisi: 'IT',
-    role: 'Backend Developer',
-    verified: false,
-    status: 'Masuk Tepat Waktu',
-    checkIn: '08:22',
-    checkOut: '18:49'
-  },
-  {
-    id: 3,
-    name: 'Alice Johnson',
-    divisi: 'IT',
-    role: 'UI Designer',
-    verified: false,
-    status: 'Terlambat',
-    checkIn: '08:40',
-    checkOut: '17:33'
-  },
-  {
-    id: 4,
-    name: '	David Smith',
-    divisi: 'IT',
-    role: 'Fullstack Developer',
-    verified: false,
-    status: 'Tidak Check In',
-    checkIn: '',
-    checkOut: '17:30'
-  },
-  {
-    id: 5,
-    name: 'Emma Wilson',
-    divisi: 'IT',
-    role: 'Product Manager',
-    verified: false,
-    status: 'Tidak Check Out',
-    checkIn: '08:22',
-    checkOut: ''
-  }
-];
+// export const kehadirans: Kehadiran[] = [
+//   {
+//     id: 1,
+//     name: 'Candice Schiner',
+//     divisi: 'IT',
+//     role: 'Frontend Developer',
+//     verified: false,
+//     status: 'Masuk Tepat Waktu',
+//     checkIn: '08:15',
+//     checkOut: '17:49'
+//   },
+//   {
+//     id: 2,
+//     name: 'John Doe',
+//     divisi: 'IT',
+//     role: 'Backend Developer',
+//     verified: false,
+//     status: 'Masuk Tepat Waktu',
+//     checkIn: '08:22',
+//     checkOut: '18:49'
+//   },
+//   {
+//     id: 3,
+//     name: 'Alice Johnson',
+//     divisi: 'IT',
+//     role: 'UI Designer',
+//     verified: false,
+//     status: 'Terlambat',
+//     checkIn: '08:40',
+//     checkOut: '17:33'
+//   },
+//   {
+//     id: 4,
+//     name: '	David Smith',
+//     divisi: 'IT',
+//     role: 'Fullstack Developer',
+//     verified: false,
+//     status: 'Tidak Check In',
+//     checkIn: '',
+//     checkOut: '17:30'
+//   },
+//   {
+//     id: 5,
+//     name: 'Emma Wilson',
+//     divisi: 'IT',
+//     role: 'Product Manager',
+//     verified: false,
+//     status: 'Tidak Check Out',
+//     checkIn: '08:22',
+//     checkOut: ''
+//   }
+// ];
 
 export type Employee = {
   id: number;

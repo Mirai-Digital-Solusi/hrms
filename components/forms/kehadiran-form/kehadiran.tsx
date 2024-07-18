@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
+  //FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,55 +18,47 @@ import {
 } from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
+import { AlertModal } from '@/components/modal/alert-modal';
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue
+// } from '@/components/ui/select';
+// import { Checkbox } from '@/components/ui/checkbox';
 // import FileUpload from "@/components/FileUpload";
 import { useToast } from '../../ui/use-toast';
-import FileUpload from '../../file-upload';
-const ImgSchema = z.object({
-  fileName: z.string(),
-  name: z.string(),
-  fileSize: z.number(),
-  size: z.number(),
-  fileKey: z.string(),
-  key: z.string(),
-  fileUrl: z.string(),
-  url: z.string()
-});
+// import FileUpload from '../../file-upload';
+// import { Database } from '@/types/supabase';
+// import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/utils/supabase/client'
+
+// const ImgSchema = z.object({
+//   fileName: z.string(),
+//   name: z.string(),
+//   fileSize: z.number(),
+//   size: z.number(),
+//   fileKey: z.string(),
+//   key: z.string(),
+//   fileUrl: z.string(),
+//   url: z.string()
+// });
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
-  id: z
-    .string(),
+  id: z.union([z.string(), z.number(), z.array(z.string()), z.undefined()]),
   name: z
     .string()
     .min(3, { message: 'Kehadiran Name must be at least 3 characters' }),
-  divisi: z
+  division: z
     .string(),
   role: z
     .string(),
-  verified: z
-    .boolean(),
-  status: z
+  status: z.union([z.string(), z.number(), z.array(z.string()), z.undefined()]),
+  check_in: z
     .string(),
-  checkIn: z
+  check_out: z
     .string(),
-  checkOut: z
-    .string(),
-  imgUrl: z
-    .array(ImgSchema)
-    .max(IMG_MAX_LIMIT, { message: 'You can only add up to 3 images' })
-    .min(1, { message: 'At least one image must be added.' }),
-  description: z
-    .string()
-    .min(3, { message: 'Kehadiran description must be at least 3 characters' }),
-  price: z.coerce.number(),
-  category: z.string().min(1, { message: 'Please select a category' })
 });
 
 type KehadiranFormValues = z.infer<typeof formSchema>;
@@ -80,30 +72,29 @@ export const KehadiranForm: React.FC<KehadiranFormProps> = ({
   initialData,
   categories
 }) => {
-  const params = useParams();
+  //const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [imgLoading, setImgLoading] = useState(false);
+  //const [imgLoading, setImgLoading] = useState(false);
   const title = initialData ? 'Edit Kehadiran' : 'Create Kehadiran';
   const description = initialData ? 'Edit a Kehadiran.' : 'Add a new Kehadiran';
-  const toastMessage = initialData ? 'Kehadiran updated.' : 'Kehadiran created.';
+  //const toastMessage = initialData ? 'Kehadiran updated.' : 'Kehadiran created.';
   const action = initialData ? 'Save changes' : 'Create';
 
-  console.log("test initial", initialData)
+  const supabase = createClient();
 
   const defaultValues = initialData
-    ? initialData
+    ? initialData[0]
     : {
       id: '',
       name: '',
-      divisi: '',
+      division: '',
       role: '',
-      verified: true,
       status: '',
-      checkIn: '',
-      checkOut: '',
+      check_in: '',
+      check_out: '',
     };
 
   const form = useForm<KehadiranFormValues>({
@@ -111,56 +102,76 @@ export const KehadiranForm: React.FC<KehadiranFormProps> = ({
     defaultValues
   });
 
-  const onSubmit = async (data: KehadiranFormValues) => {
+  const onSubmit = async (value: KehadiranFormValues) => {
+    console.log("test initial", initialData)
     try {
       setLoading(true);
       if (initialData) {
-        // await axios.post(`/api/Kehadirans/edit-Kehadiran/${initialData._id}`, data);
+          // await axios.post(`/api/Employees/edit-Employee/${initialData._id}`, data);
+          const { data, error } = await supabase
+              .from('attendances')
+              .update(value)
+              .eq('id', value.id)
+              .select()
+          router.refresh();
+          toast({
+              variant: 'success',
+              title: 'Update Success.',
+              description: 'Update operation is successful!'
+          });
       } else {
-        // const res = await axios.post(`/api/Kehadirans/create-Kehadiran`, data);
-        // console.log("Kehadiran", res);
+          const { data, error } = await supabase
+              .from('attendances')
+              .insert([
+                  { name: value.name, division: value.division, role: value.role, status: value.status, check_in: value.check_in, check_out: value.check_out },
+              ])
+              .select()
+          router.push(`/dashboard/kehadiran`);
+          router.refresh();
+          toast({
+              variant: 'success',
+              title: 'Insert Success.',
+              description: 'Insert operation is successful!'
+          });
       }
-      router.refresh();
-      router.push(`/dashboard/Kehadirans`);
+
+  } catch (error: any) {
       toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'There was a problem with your request.'
       });
-    } catch (error: any) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
-      });
-    } finally {
+  } finally {
       setLoading(false);
-    }
+  }
   };
 
   const onDelete = async () => {
     try {
-      setLoading(true);
-      //   await axios.delete(`/api/${params.storeId}/Kehadirans/${params.KehadiranId}`);
-      router.refresh();
-      router.push(`/${params.storeId}/Kehadirans`);
+        setLoading(true);
+        const { error } = await supabase
+            .from('attendances')
+            .delete()
+            .eq('id', initialData[0].id)
+        router.push(`/dashboard/kehadiran`);
+        router.refresh();
     } catch (error: any) {
     } finally {
-      setLoading(false);
-      setOpen(false);
+        setLoading(false);
+        setOpen(false);
     }
-  };
+};
 
-  const triggerImgUrlValidation = () => form.trigger('imgUrl');
+  //const triggerImgUrlValidation = () => form.trigger('imgUrl');
 
   return (
     <>
-      {/* <AlertModal
+      <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
         loading={loading}
-      /> */}
+      />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -234,14 +245,14 @@ export const KehadiranForm: React.FC<KehadiranFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="divisi"
+              name="division"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Divisi</FormLabel>
+                  <FormLabel>Division</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Divisi Pegawai"
+                      placeholder="Employee Division"
                       {...field}
                     />
                   </FormControl>
@@ -285,7 +296,7 @@ export const KehadiranForm: React.FC<KehadiranFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="checkIn"
+              name="check_in"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>CheckIn</FormLabel>
@@ -302,7 +313,7 @@ export const KehadiranForm: React.FC<KehadiranFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="checkOut"
+              name="check_out"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>CheckOut</FormLabel>

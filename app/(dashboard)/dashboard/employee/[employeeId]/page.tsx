@@ -2,8 +2,8 @@ import BreadCrumb from '@/components/breadcrumb';
 import { EmployeeForm } from '@/components/forms/employee-form/employee';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import React from 'react';
-import { Database } from '@/types/supabase';
-import { createClient } from '@supabase/supabase-js'
+// import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/utils/supabase/server'
 
 export default async function Page({params}:any) {
   const breadcrumbItems = [
@@ -11,10 +11,7 @@ export default async function Page({params}:any) {
     { title: params.employeeId === 'new' ? 'Create' : 'Update', link: params.employeeId === 'new' ? '/dashboard/employee/create' : '/dashboard/employee/update' }
   ];
 
-  const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
-  )
+  const supabase = createClient()
 
   let initialData = null
 

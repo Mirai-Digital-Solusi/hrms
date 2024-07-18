@@ -7,8 +7,7 @@ import { Trash } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Database } from '@/types/supabase';
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/utils/supabase/client'
 import { AlertModal } from '@/components/modal/alert-modal';
 import {
     Form,
@@ -80,10 +79,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
     //const toastMessage = initialData ? 'Employee updated.' : 'Employee created.';
     const action = initialData ? 'Save changes' : 'Create';
 
-    const supabase = createClient<Database>(
-        process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
-    )
+    const supabase = createClient();
 
     const defaultValues = initialData
         ? initialData[0]
