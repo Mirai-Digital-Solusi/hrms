@@ -29,6 +29,17 @@ export type Kehadiran = {
   check_out: string;
 };
 
+export type Overtime = {
+  id: number;
+  name: string;
+  division: string;
+  role: string;
+  date: string;
+  hour: string;
+  status: string;
+  description: string;
+};
+
 export const users: User[] = [
   {
     id: 1,

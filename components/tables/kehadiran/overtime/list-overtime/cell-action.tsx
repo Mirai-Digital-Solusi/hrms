@@ -1,6 +1,7 @@
 'use client';
 import { AlertModal } from '@/components/modal/alert-modal';
 import { Button } from '@/components/ui/button';
+import { createClient } from '@/utils/supabase/client'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,33 +9,52 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Kehadiran } from '@/constants/data';
+import { Overtime } from '@/constants/data';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; //useParams,
+import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 
 interface CellActionProps {
-  data: Kehadiran;
+  data: Overtime;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  console.log("test kehadiran", data);
+  const supabase = createClient()
+  const { toast } = useToast();
 
-  const handleClick = () => {
-    router.push(`/dashboard/kehadiran/${data.id}`);
+  //const onConfirm = async () => { };
+
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      const { error } = await supabase
+        .from('overtimes')
+        .delete()
+        .eq('id', data.id)
+      router.push(`/dashboard/kehadiran/overtime`);
+      router.refresh();
+      toast({
+        variant: 'success',
+        title: 'Insert Success.',
+        description: 'Insert operation is successful!'
+      });
+    } catch (error: any) {
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
   };
-
-  const onConfirm = async () => {};
 
   return (
     <>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={onDelete}
         loading={loading}
       />
       <DropdownMenu modal={false}>
@@ -48,7 +68,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={handleClick}
+            onClick={() => router.push(`/dashboard/kehadiran/overtime/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
