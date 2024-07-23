@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Trash } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -107,16 +107,21 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({
     });
 
     const onSubmit = async (value: LeaveFormValues) => {
-        console.log("test initial", initialData)
         try {
             setLoading(true);
             if (initialData) {
-                // await axios.post(`/api/Employees/edit-Employee/${initialData._id}`, data);
-                const { data, error } = await supabase
+                const { error } = await supabase
                     .from('leaves')
                     .update(value)
                     .eq('id', value.id)
                     .select()
+                if (error) {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Uh oh! Something went wrong.',
+                        description: 'There was a problem with your request.' + error
+                    });
+                }
                 router.refresh();
                 toast({
                     variant: 'success',
@@ -124,12 +129,19 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({
                     description: 'Update operation is successful!'
                 });
             } else {
-                const { data, error } = await supabase
+                const { error } = await supabase
                     .from('leaves')
                     .insert([
                         { name: value.name, division: value.division, role: value.role, type: value.type, date_from: value.date_from, date_to: value.date_to, status: value.status, description: value.description },
                     ])
                     .select()
+                if (error) {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Uh oh! Something went wrong.',
+                        description: 'There was a problem with your request.' + error
+                    });
+                }
                 router.push(`/dashboard/kehadiran/leave`);
                 router.refresh();
                 toast({
@@ -157,6 +169,13 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({
                 .from('leaves')
                 .delete()
                 .eq('id', initialData[0].id)
+            if (error) {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Uh oh! Something went wrong.',
+                        description: 'There was a problem with your request.' + error
+                    });
+                }
             router.push(`/dashboard/kehadiran/leave`);
             router.refresh();
         } catch (error: any) {
@@ -165,8 +184,6 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({
             setOpen(false);
         }
     };
-
-    //const triggerImgUrlValidation = () => form.trigger('imgUrl');
 
     return (
         <>

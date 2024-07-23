@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import {
   Form,
   FormControl,
@@ -14,21 +15,28 @@ import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useToast } from '@/components/ui/use-toast';
 import * as z from 'zod';
 import GoogleSignInButton from '../github-auth-button';
+import { createClient } from '@/utils/supabase/client'
 
 const formSchema = z.object({
-  email: z.string().email({ message: 'Enter a valid email address' })
+  email: z.string().email({ message: 'Enter a valid email address' }),
+  password: z.string().min(8, { message: 'Enter a valid password, min-length is 8' })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
 
 export default function UserAuthForm() {
+  const supabase = createClient()
+  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl');
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const defaultValues = {
-    email: 'demo@gmail.com'
+    email: '',
+    password: '',
   };
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
@@ -36,10 +44,27 @@ export default function UserAuthForm() {
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    signIn('credentials', {
-      email: data.email,
-      callbackUrl: callbackUrl ?? '/dashboard'
+    // signIn('credentials', {
+    //   email: data.email,
+    //   callbackUrl: callbackUrl ?? '/dashboard'
+    // });
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword(data)
+    if (error) {
+      return toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: error?.message
+      });
+    }
+    setLoading(false);
+    console.log("ini data auth", data)
+    toast({
+      variant: 'success',
+      title: 'Success',
+      description: 'Sign in successful',
     });
+    router.push('/dashboard');
   };
 
   return (
@@ -68,8 +93,27 @@ export default function UserAuthForm() {
             )}
           />
 
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Enter your password..."
+                    disabled={loading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button disabled={loading} className="ml-auto w-full" type="submit">
-            Continue With Email
+            Login
           </Button>
         </form>
       </Form>
