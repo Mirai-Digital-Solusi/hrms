@@ -19,13 +19,14 @@ import { useToast } from '@/components/ui/use-toast';
 import * as z from 'zod';
 import GoogleSignInButton from '../github-auth-button';
 import { createClient } from '@/utils/supabase/client'
+import { login } from '@/app/(auth)/(signin)/actions';
 
-const formSchema = z.object({
+export const signInSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email address' }),
   password: z.string().min(8, { message: 'Enter a valid password, min-length is 8' })
 });
 
-type UserFormValue = z.infer<typeof formSchema>;
+type UserFormValue = z.infer<typeof signInSchema>;
 
 export default function UserAuthForm() {
   const supabase = createClient()
@@ -39,7 +40,7 @@ export default function UserAuthForm() {
     password: '',
   };
   const form = useForm<UserFormValue>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(signInSchema),
     defaultValues
   });
 
@@ -49,12 +50,12 @@ export default function UserAuthForm() {
     //   callbackUrl: callbackUrl ?? '/dashboard'
     // });
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword(data)
-    if (error) {
+    const {message, success} = await login(data)
+    if (!success) {
       return toast({
         variant: 'destructive',
         title: 'Uh oh! Something went wrong.',
-        description: error?.message
+        description: message
       });
     }
     setLoading(false);
