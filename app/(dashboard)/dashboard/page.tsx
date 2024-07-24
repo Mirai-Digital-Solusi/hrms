@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import { Overview } from '@/components/overview';
 import { RecentSales } from '@/components/recent-sales';
@@ -15,11 +13,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default async function page() {
-  const supabase = createClient()
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect('/')
-  }
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
