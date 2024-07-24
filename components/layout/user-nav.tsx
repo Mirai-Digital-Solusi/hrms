@@ -1,6 +1,8 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,9 +13,22 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react'; //signOut, 
 export function UserNav() {
   const { data: session } = useSession();
+  const supabase = createClient()
+  const router = useRouter();
+
+  async function signOut() {
+
+    const { error } = await supabase.auth.signOut()
+    if (!error) {
+      router.push(`/`);
+      router.refresh();
+    }
+
+  }
+  
   if (session) {
     return (
       <DropdownMenu>
