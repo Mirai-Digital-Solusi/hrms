@@ -2,7 +2,6 @@ import { getCurrentUser } from '@/utils/supabase/user';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import { Overview } from '@/components/overview';
 import { RecentSales } from '@/components/recent-sales';
-import { Button } from '@/components/ui/button';
 import { DigitalClock } from '@/components/digital-clock';
 import {
   Card,
@@ -13,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DashboardClockInButton } from '@/components/personal/dashboard-button';
 
 export default async function page() {
   const currentUser = getCurrentUser();
@@ -40,7 +40,8 @@ export default async function page() {
             <Card className='flex place-content-center'>
               <div className='grid gap-4 content-center justify-center'>
               <div className="text-xl font-bold">08:00 - 18:00</div>
-              <Button className='bg-lime-400 '>Clock-In</Button>
+              {/* <Button className='bg-lime-400 '>Clock-In</Button> */}
+              <DashboardClockInButton />
               </div>
               </Card>
               </div>
