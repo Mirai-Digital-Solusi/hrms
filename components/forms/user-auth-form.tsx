@@ -65,7 +65,7 @@ export default function UserAuthForm() {
       title: 'Success',
       description: 'Sign in successful',
     });
-    router.push('/dashboard');
+    router.push('/personal/dashboard');
   };
 
   return (

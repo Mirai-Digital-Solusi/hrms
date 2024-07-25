@@ -1,12 +1,12 @@
-import { createServerClient } from "@supabase/ssr";
-import { type NextRequest, NextResponse } from "next/server";
+import { createServerClient } from '@supabase/ssr';
+import { type NextRequest, NextResponse } from 'next/server';
 
 export const updateSession = async (request: NextRequest) => {
   // Create an unmodified response
   let response = NextResponse.next({
     request: {
-      headers: request.headers,
-    },
+      headers: request.headers
+    }
   });
 
   const supabase = createServerClient(
@@ -19,24 +19,28 @@ export const updateSession = async (request: NextRequest) => {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value),
+            request.cookies.set(name, value)
           );
           response = NextResponse.next({
-            request,
+            request
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
+            response.cookies.set(name, value, options)
           );
-        },
-      },
-    },
+        }
+      }
+    }
   );
 
-  const user = await supabase.auth.getUser()
+  const user = await supabase.auth.getUser();
 
-    if (request.nextUrl.pathname.startsWith('/dashboard') && user.error) {
-        return NextResponse.redirect(new URL('/', request.url))
-    }
+  if (request.nextUrl.pathname.startsWith('/dashboard') && user.error) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  if (request.nextUrl.pathname.startsWith('/personal') && user.error) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
 
   return response;
 };

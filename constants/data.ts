@@ -340,6 +340,22 @@ export const kehadiranNavItems: KehadiranNavItem[] = [
 
 export const navItems: NavItem[] = [
   {
+    title: 'Personal',
+    label: 'Personal'
+  },
+  {
+    title: 'My Dashboard',
+    href: '/personal/dashboard',
+    icon: 'dashboard',
+    label: 'My Dashboard'
+  },
+  {
+    title: 'Team Board',
+    href: '/dashboard/kanban',
+    icon: 'kanban',
+    label: 'Team Board'
+  },
+  {
     title: 'Admin',
     label: 'Admin'
   },
@@ -367,16 +383,6 @@ export const navItems: NavItem[] = [
     icon: 'userCheck',
     label: 'Kehadiran'
   },
-  {
-    title: 'Personal',
-    label: 'Personal'
-  },
-  {
-    title: 'Team Board',
-    href: '/dashboard/kanban',
-    icon: 'kanban',
-    label: 'Team Board'
-  },
   // {
   //   title: 'User',
   //   href: '/dashboard/user',
@@ -395,10 +401,10 @@ export const navItems: NavItem[] = [
   //   icon: 'kanban',
   //   label: 'kanban'
   // },
-  {
-    title: 'Login',
-    href: '/',
-    icon: 'login',
-    label: 'login'
-  }
+  // {
+  //   title: 'Login',
+  //   href: '/',
+  //   icon: 'login',
+  //   label: 'login'
+  // }
 ];
