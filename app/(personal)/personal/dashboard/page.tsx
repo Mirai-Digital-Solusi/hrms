@@ -2,6 +2,7 @@ import { getCurrentUser } from '@/utils/supabase/user';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import { Overview } from '@/components/overview';
 import { RecentSales } from '@/components/recent-sales';
+import { createClient } from '@/utils/supabase/server'
 import { DigitalClock } from '@/components/digital-clock';
 import {
   Card,
@@ -16,6 +17,12 @@ import { DashboardClockInButton } from '@/components/personal/dashboard-button';
 
 export default async function page() {
   const currentUser = getCurrentUser();
+  const supabase = createClient()
+  let { data: employee, error: employeeError } = await supabase
+            .from('employees')
+            .select()
+            .eq('user_id', (await currentUser).id)
+        console.log("data user", employee)
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
@@ -41,7 +48,7 @@ export default async function page() {
               <div className='grid gap-4 content-center justify-center'>
               <div className="text-xl font-bold">08:00 - 18:00</div>
               {/* <Button className='bg-lime-400 '>Clock-In</Button> */}
-              <DashboardClockInButton />
+              <DashboardClockInButton initialData={employee}/>
               </div>
               </Card>
               </div>
