@@ -46,6 +46,7 @@ import { useToast } from '../../ui/use-toast';
 export const IMG_MAX_LIMIT = 3;
 const formSchema = z.object({
     id: z.union([z.string(), z.number(), z.array(z.string()), z.undefined()]),
+    user_id: z.union([z.string(), z.number(), z.array(z.string()), z.undefined()]),
     name: z
         .string()
         .min(3, { message: 'Employee Name must be at least 3 characters' }),
@@ -54,6 +55,7 @@ const formSchema = z.object({
         .string(),
     status: z
         .string(),
+    division: z.string(),
     job: z
         .string(),
 });
@@ -278,6 +280,23 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                         />
                         <FormField
                             control={form.control}
+                            name="division"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Division</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            disabled={loading}
+                                            placeholder="Division Employee"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="job"
                             render={({ field }) => (
                                 <FormItem>
@@ -303,6 +322,23 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                                         <Input
                                             disabled={loading}
                                             placeholder="Status Employee"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="user_id"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>User Id</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            disabled={true}
+                                            placeholder="User ID Employee"
                                             {...field}
                                         />
                                     </FormControl>
