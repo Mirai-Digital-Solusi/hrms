@@ -49,6 +49,7 @@ const formSchema = z.object({
     name: z
         .string()
         .min(3, { message: 'Employee Name must be at least 3 characters' }),
+    email: z.string(),
     gender: z
         .string(),
     status: z
@@ -113,10 +114,15 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                     description: 'Update operation is successful!'
                 });
             } else {
+                const { data : authSignUp, error: errorSignUp } = await supabase.auth.signUp({
+                    email: value.email,
+                    password: 'Demo1234',
+                })
+
                 const { data, error } = await supabase
                     .from('employees')
                     .insert([
-                        { name: value.name, gender: value.gender, job: value.job, status: value.status },
+                        { name: value.name, gender: value.gender, job: value.job, status: value.status, user_id: authSignUp.user.id },
                     ])
                     .select()
                 router.push(`/dashboard/employee`);
@@ -229,6 +235,23 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                                         <Input
                                             disabled={loading}
                                             placeholder="Nama Pegawai"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            disabled={loading}
+                                            placeholder="Email Pegawai"
                                             {...field}
                                         />
                                     </FormControl>

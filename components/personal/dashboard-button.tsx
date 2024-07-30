@@ -15,14 +15,15 @@ export const DashboardClockInButton: React.FC<ButtonProps> = ({ initialData }) =
     const [buttonText, setButtonText] = useState('Clock-In');
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
+    const currentDate = new Date();
+    const hour = currentDate.getHours();
+    const minute = currentDate.getMinutes();
+    const startOfDay = new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate()));
+    const timestampz = startOfDay.toISOString() + '+00';
     console.log("initial data", initialData)
 
     const handleClick = async () => {
-        const currentDate = new Date();
-        const hour = currentDate.getHours();
-        const minute = currentDate.getMinutes();
-        const startOfDay = new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate()));
-        const timestampz = startOfDay.toISOString() + '+00';
+        
         if (buttonText === 'Clock-In') {
             const { data, error } = await supabase
                 .from('attendances')
@@ -46,9 +47,6 @@ export const DashboardClockInButton: React.FC<ButtonProps> = ({ initialData }) =
     };
 
     const fetchDataAttendances = async () => {
-        const currentDate = new Date();
-        const startOfDay = new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate()));
-        const timestampz = startOfDay.toISOString() + '+00';
         let { data: attendances, error } = await supabase
             .from('attendances')
             .select()
