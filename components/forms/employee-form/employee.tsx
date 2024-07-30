@@ -124,7 +124,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                 const { data, error } = await supabase
                     .from('employees')
                     .insert([
-                        { name: value.name, gender: value.gender, job: value.job, status: value.status, user_id: authSignUp?.user?.id },
+                        { name: value.name, email: value.email, gender: value.gender, job: value.job, status: value.status, user_id: authSignUp?.user?.id },
                     ])
                     .select()
                 router.push(`/dashboard/employee`);
