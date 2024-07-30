@@ -46,7 +46,6 @@ export default async function page() {
             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
             <Card className='flex place-content-center'>
               <div className='grid gap-4 content-center justify-center'>
-              <div className="text-xl font-bold">08:00 - 18:00</div>
               {/* <Button className='bg-lime-400 '>Clock-In</Button> */}
               <DashboardClockInButton initialData={employee}/>
               </div>
