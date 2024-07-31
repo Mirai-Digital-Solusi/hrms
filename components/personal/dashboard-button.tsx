@@ -23,12 +23,19 @@ export const DashboardClockInButton: React.FC<ButtonProps> = ({ initialData }) =
     console.log("initial data", initialData)
 
     const handleClick = async () => {
+        let { data: attendances_settings, error } = await supabase
+        .from('attendances_settings')
+        .select('*')
+        console.log("att sett", attendances_settings)
+        const startTime = attendances_settings?.[0]?.start_time;
+        const endTime = attendances_settings?.[0]?.end_time;
         
         if (buttonText === 'Clock-In') {
+            const timeLate = startTime.localeCompare(`${hour}:${minute}`)
             const { data, error } = await supabase
                 .from('attendances')
                 .insert([
-                    { name: initialData[0]?.name, division: initialData[0]?.division, role: initialData[0]?.job, status: 'Berhasil', check_in: `${hour}:${minute}`, check_out: '' },
+                    { name: initialData[0]?.name, division: initialData[0]?.division, role: initialData[0]?.job, status: timeLate < 0 ? "Terlambat" : "Tepat Waktu", check_in: `${hour}:${minute}`, check_out: '' },
                 ])
                 .select()
             router.push(`/personal/dashboard`);
