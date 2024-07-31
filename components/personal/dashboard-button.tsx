@@ -43,9 +43,10 @@ export const DashboardClockInButton: React.FC<ButtonProps> = ({ initialData }) =
 
 
         } else {
+            const timeHome = endTime.localeCompare(`${hour}:${minute}`)
             const { data, error } = await supabase
                 .from('attendances')
-                .update({ check_out: `${hour}:${minute}` })
+                .update({ status: timeHome > 0 ? "Pulang Lebih Awal" : "Tepat Waktu", check_out: `${hour}:${minute}` })
                 .eq('name', initialData[0]?.name)
                 .gte('created_at', timestampz)
             router.push(`/personal/dashboard`);
