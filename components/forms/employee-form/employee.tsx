@@ -252,7 +252,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input
-                                            disabled={loading}
+                                            disabled={title === 'Edit Employee' ? true : false}
                                             placeholder="Email Pegawai"
                                             {...field}
                                         />

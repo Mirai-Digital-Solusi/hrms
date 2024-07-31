@@ -20,13 +20,11 @@ export const DashboardClockInButton: React.FC<ButtonProps> = ({ initialData }) =
     const minute = currentDate.getMinutes();
     const startOfDay = new Date(Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate()));
     const timestampz = startOfDay.toISOString() + '+00';
-    console.log("initial data", initialData)
 
     const handleClick = async () => {
         let { data: attendances_settings, error } = await supabase
         .from('attendances_settings')
         .select('*')
-        console.log("att sett", attendances_settings)
         const startTime = attendances_settings?.[0]?.start_time;
         const endTime = attendances_settings?.[0]?.end_time;
         
@@ -62,11 +60,10 @@ export const DashboardClockInButton: React.FC<ButtonProps> = ({ initialData }) =
             .gte('created_at', timestampz)
         if (!!attendances?.length) {
             setButtonText('Clock Out');
-            setBackgroundColor('bg-red-400');
+            setBackgroundColor('bg-red-400 text-white');
             setStartTime(attendances[0].check_in)
             setEndTime(attendances[0].check_out)
         }
-        console.log("attendances exist?", attendances)
 
     }
 

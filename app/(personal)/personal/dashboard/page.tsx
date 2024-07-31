@@ -4,6 +4,7 @@ import { Overview } from '@/components/overview';
 import { RecentSales } from '@/components/recent-sales';
 import { createClient } from '@/utils/supabase/server'
 import { DigitalClock } from '@/components/digital-clock';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -66,16 +67,15 @@ export default async function page() {
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardHeader className="flex place-content-center flex-row">
                   <CardTitle className="text-sm font-medium">
-                    Jumlah Cuti
+                    Pengajuan Kehadiran
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">9</div>
-                  <p className="text-xs text-muted-foreground">
-                    Ajukan Cuti Anda
-                  </p>
+                <CardContent className="flex place-content-center flex-row">
+                <Button className='text-white'>
+            Ajukan
+        </Button>
                 </CardContent>
               </Card>
               </div>
