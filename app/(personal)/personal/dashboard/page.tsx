@@ -8,28 +8,55 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DashboardClockInButton } from '@/components/personal/dashboard-button';
+import { Kehadiran } from '@/constants/data';
+import { AttendanceTable } from '@/components/tables/personal-tables/list-kehadiran/attendance-table';
+import { columns } from '@/components/tables/personal-tables/list-kehadiran/columns';
 
 export default async function page() {
   const currentUser = getCurrentUser();
   const supabase = createClient()
+
+  const page = 1;
+  const pageLimit = 10;
+  const offset = (page - 1) * pageLimit;
+
   let { data: employee, error: employeeError } = await supabase
             .from('employees')
             .select()
             .eq('user_id', (await currentUser).id)
-        console.log("data user", employee)
+
+  const { count } = await supabase
+    .from('attendances')
+    .select('id', { count: 'exact', head: true })
+    .ilike('name', `%${employee?.[0]?.name}%`);;
+
+  const totalUsers = Math.ceil(count ?? 0 / 10);
+
+  const { data, error } = await supabase
+    .from('attendances')
+    .select()
+    .order('id', { ascending: true })
+    .range(offset, offset + pageLimit - 1)
+    .ilike('name', `%${employee?.[0]?.name}%`);
+
+  if (error) {
+    throw error;
+  }
+
+  const pageCount = Math.ceil(totalUsers / pageLimit);
+  const attendance: Kehadiran[] = data ?? [];
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">
-            Hi, Welcome back {(await currentUser).email} 👋
+            Hi, Welcome Back {(await currentUser).email} 👋
           </h2>
           <div className="hidden items-center space-x-2 md:flex">
             <DigitalClock />
@@ -80,6 +107,13 @@ export default async function page() {
               </Card>
               </div>
             </div>
+            <AttendanceTable
+          pageNo={page}
+          columns={columns}
+          totalUsers={totalUsers}
+          data={attendance}
+          pageCount={pageCount}
+        />
             {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
                 <CardHeader>

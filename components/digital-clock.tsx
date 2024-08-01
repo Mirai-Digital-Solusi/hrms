@@ -24,7 +24,7 @@ export const DigitalClock: React.FC = () => {
 
     return (
         <div className="text-2xl font-bold">
-            <h1>{time}</h1>
+            <h1 suppressHydrationWarning>{time}</h1>
         </div>
     );
 }
