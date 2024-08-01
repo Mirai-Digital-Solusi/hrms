@@ -19,6 +19,7 @@ import { AttendanceTable } from '@/components/tables/personal-tables/list-kehadi
 import { columns } from '@/components/tables/personal-tables/list-kehadiran/columns';
 import { AttendanceApprovalTable } from '@/components/tables/personal-tables/list-approval/attendance-table';
 import { columns as approvalColumns } from '@/components/tables/personal-tables/list-approval/columns';
+import { RequestAttendanceDialog } from '@/components/modal/personal/attendance-request/request-attendance';
 
 export default async function page() {
   const currentUser = getCurrentUser();
@@ -29,9 +30,9 @@ export default async function page() {
   const offset = (page - 1) * pageLimit;
 
   let { data: employee, error: employeeError } = await supabase
-            .from('employees')
-            .select()
-            .eq('user_id', (await currentUser).id)
+    .from('employees')
+    .select()
+    .eq('user_id', (await currentUser).id)
 
   const { count } = await supabase
     .from('attendances')
@@ -51,7 +52,7 @@ export default async function page() {
     throw error;
   }
 
-  const { count: approvalCount} = await supabase
+  const { count: approvalCount } = await supabase
     .from('attendances')
     .select('id', { count: 'exact', head: true })
     .ilike('name', `%${employee?.[0]?.name}%`);;
@@ -94,73 +95,71 @@ export default async function page() {
           </TabsList>
           <TabsContent value="attendance" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-            <Card className='flex place-content-center'>
-              <div className='grid gap-4 content-center justify-center'>
-              {/* <Button className='bg-lime-400 '>Clock-In</Button> */}
-              <DashboardClockInButton initialData={employee}/>
+              <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
+                <Card className='flex place-content-center'>
+                  <div className='grid gap-4 content-center justify-center'>
+                    {/* <Button className='bg-lime-400 '>Clock-In</Button> */}
+                    <DashboardClockInButton initialData={employee} />
+                  </div>
+                </Card>
               </div>
-              </Card>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">
+                      Keterlambatan
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">0</div>
+                    <p className="text-xs text-muted-foreground">
+                      Selamat Anda Tepat Waktu
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="flex place-content-center flex-row">
+                    <CardTitle className="text-sm font-medium">
+                      Pengajuan Kehadiran
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex place-content-center flex-row">
+                      <RequestAttendanceDialog />
+                  </CardContent>
+                </Card>
               </div>
+            </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <Card className='px-4'>
+                <CardHeader className="flex place-content-center flex-row">
                   <CardTitle className="text-sm font-medium">
-                    Keterlambatan
+                    List Kehadiran
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">0</div>
-                  <p className="text-xs text-muted-foreground">
-                    Selamat Anda Tepat Waktu
-                  </p>
-                </CardContent>
+                <AttendanceTable
+                  pageNo={page}
+                  columns={columns}
+                  totalUsers={totalUsers}
+                  data={attendance}
+                  pageCount={pageCount}
+                />
               </Card>
-              <Card>
+              <Card className='px-4'>
                 <CardHeader className="flex place-content-center flex-row">
                   <CardTitle className="text-sm font-medium">
                     Pengajuan Kehadiran
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="flex place-content-center flex-row">
-                <Button className='text-white'>
-            Ajukan
-        </Button>
-                </CardContent>
+                <AttendanceApprovalTable
+                  pageNo={page}
+                  columns={approvalColumns}
+                  totalUsers={totalApproval}
+                  data={approval}
+                  pageCount={pageApprovalCount}
+                />
               </Card>
-              </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
-            <Card className='px-4'>
-            <CardHeader className="flex place-content-center flex-row">
-                  <CardTitle className="text-sm font-medium">
-                    List Kehadiran
-                  </CardTitle>
-                </CardHeader>
-            <AttendanceTable
-          pageNo={page}
-          columns={columns}
-          totalUsers={totalUsers}
-          data={attendance}
-          pageCount={pageCount}
-        />
-        </Card>
-        <Card className='px-4'>
-        <CardHeader className="flex place-content-center flex-row">
-                  <CardTitle className="text-sm font-medium">
-                    Pengajuan Kehadiran
-                  </CardTitle>
-                </CardHeader>
-            <AttendanceApprovalTable
-          pageNo={page}
-          columns={approvalColumns}
-          totalUsers={totalApproval}
-          data={approval}
-          pageCount={pageApprovalCount}
-        />
-        </Card>
-            </div>
-            
+
             {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
                 <CardHeader>
