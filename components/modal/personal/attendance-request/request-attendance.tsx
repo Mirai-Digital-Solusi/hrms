@@ -26,12 +26,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClient } from '@/utils/supabase/client'
 
-export function RequestAttendanceDialog() {
+export function RequestAttendanceDialog(employeeName:any) {
     const supabase = createClient();
     const router = useRouter();
     const { toast } = useToast();
 
-    const [name, setName] = React.useState('')
     const [date, setDate] = React.useState<Date>()
     const [time, setTime] = React.useState('08:00')
     const [type, setType] = React.useState('Clock-In')
@@ -43,7 +42,7 @@ export function RequestAttendanceDialog() {
             const { data, error } = await supabase
                 .from('attendances_approval')
                 .insert([
-                    { name: name, date_request: formattedDate, time_request: time, type: type, status: 'Needs Approval' },
+                    { name: employeeName.employeeName, date_request: formattedDate, time_request: time, type: type, status: 'Needs Approval' },
                 ])
                 .select()
             router.push(`/personal/dashboard`);
@@ -54,7 +53,11 @@ export function RequestAttendanceDialog() {
                 description: 'Insert operation is successful!'
             });
         } else {
-            console.log("Date is null or undefined");
+            toast({
+                variant: 'destructive',
+                title: 'Insert Request Fail.',
+                description: 'Date is undefined or null'
+            });
         }
     };
 
@@ -71,13 +74,7 @@ export function RequestAttendanceDialog() {
                             Kindly provide your details in the form below.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="grid gap-4">
-                        <div className="grid grid-cols-6 items-center">
-                            <Label htmlFor="name">
-                                Name
-                            </Label>
-                            <Input id="name" value={name} onChange={(event) => setName(event.target.value)} className="col-span-4" />
-                        </div>
+                    <div className="grid gap-4 mt-4">
                         <div className="grid grid-cols-6 items-center">
                             <Label htmlFor="date">
                                 Date

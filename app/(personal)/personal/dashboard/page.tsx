@@ -124,7 +124,7 @@ export default async function page() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="flex place-content-center flex-row">
-                      <RequestAttendanceDialog />
+                      <RequestAttendanceDialog employeeName={employee?.[0]?.name}/>
                   </CardContent>
                 </Card>
               </div>
