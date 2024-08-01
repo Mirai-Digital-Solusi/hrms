@@ -46,11 +46,11 @@ export const columns: ColumnDef<Kehadiran>[] = [
   },
   {
     accessorKey: 'check_in',
-    header: 'CHECK IN'
+    header: 'CLOCK IN'
   },
   {
     accessorKey: 'check_out',
-    header: 'CHECK OUT'
+    header: 'CLOCK OUT'
   },
   {
     id: 'actions',

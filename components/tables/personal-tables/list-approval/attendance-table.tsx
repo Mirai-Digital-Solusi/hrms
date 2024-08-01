@@ -47,7 +47,7 @@ interface DataTableProps<TData, TValue> {
   };
 }
 
-export function AttendanceTable<TData, TValue>({
+export function AttendanceApprovalTable<TData, TValue>({
   columns,
   data,
   pageNo,

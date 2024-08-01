@@ -29,6 +29,18 @@ export type Kehadiran = {
   check_out: string;
 };
 
+export type ApprovalAttendances = {
+  id: number;
+  name: string;
+  division: string;
+  role: string;
+  date_request: string;
+  type: string;
+  time_request: string;
+  reason: string;
+  status: string;
+};
+
 export type Overtime = {
   id: number;
   name: string;

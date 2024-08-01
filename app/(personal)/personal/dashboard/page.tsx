@@ -14,9 +14,11 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DashboardClockInButton } from '@/components/personal/dashboard-button';
-import { Kehadiran } from '@/constants/data';
+import { Kehadiran, ApprovalAttendances } from '@/constants/data';
 import { AttendanceTable } from '@/components/tables/personal-tables/list-kehadiran/attendance-table';
 import { columns } from '@/components/tables/personal-tables/list-kehadiran/columns';
+import { AttendanceApprovalTable } from '@/components/tables/personal-tables/list-approval/attendance-table';
+import { columns as approvalColumns } from '@/components/tables/personal-tables/list-approval/columns';
 
 export default async function page() {
   const currentUser = getCurrentUser();
@@ -49,8 +51,29 @@ export default async function page() {
     throw error;
   }
 
+  const { count: approvalCount} = await supabase
+    .from('attendances')
+    .select('id', { count: 'exact', head: true })
+    .ilike('name', `%${employee?.[0]?.name}%`);;
+
+  const totalApproval = Math.ceil(approvalCount ?? 0 / 10);
+
+  const { data: approvalData, error: approvalError } = await supabase
+    .from('attendances_approval')
+    .select()
+    .order('id', { ascending: true })
+    .range(offset, offset + pageLimit - 1)
+    .ilike('name', `%${employee?.[0]?.name}%`);
+
+  if (error) {
+    throw error;
+  }
+
   const pageCount = Math.ceil(totalUsers / pageLimit);
   const attendance: Kehadiran[] = data ?? [];
+
+  const pageApprovalCount = Math.ceil(totalApproval / pageLimit);
+  const approval: ApprovalAttendances[] = approvalData ?? [];
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
@@ -107,6 +130,13 @@ export default async function page() {
               </Card>
               </div>
             </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+            <Card className='px-4'>
+            <CardHeader className="flex place-content-center flex-row">
+                  <CardTitle className="text-sm font-medium">
+                    List Kehadiran
+                  </CardTitle>
+                </CardHeader>
             <AttendanceTable
           pageNo={page}
           columns={columns}
@@ -114,6 +144,23 @@ export default async function page() {
           data={attendance}
           pageCount={pageCount}
         />
+        </Card>
+        <Card className='px-4'>
+        <CardHeader className="flex place-content-center flex-row">
+                  <CardTitle className="text-sm font-medium">
+                    Pengajuan Kehadiran
+                  </CardTitle>
+                </CardHeader>
+            <AttendanceApprovalTable
+          pageNo={page}
+          columns={approvalColumns}
+          totalUsers={totalApproval}
+          data={approval}
+          pageCount={pageApprovalCount}
+        />
+        </Card>
+            </div>
+            
             {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
                 <CardHeader>
