@@ -8,9 +8,10 @@ import { useSidebar } from '@/hooks/useSidebar';
 
 type SidebarProps = {
   className?: string;
+  role?: string;
 };
 
-export default function Sidebar({ className }: SidebarProps) {
+export default function Sidebar({ className, role }: SidebarProps) {
   const { isMinimized, toggle } = useSidebar();
   const [status, setStatus] = useState(false);
 
@@ -38,7 +39,7 @@ export default function Sidebar({ className }: SidebarProps) {
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <div className="mt-3 space-y-1">
-            <DashboardNav items={navItems} />
+            <DashboardNav items={navItems} role={role} />
           </div>
         </div>
       </div>

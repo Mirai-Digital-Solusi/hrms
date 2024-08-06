@@ -353,35 +353,41 @@ export const kehadiranNavItems: KehadiranNavItem[] = [
 export const navItems: NavItem[] = [
   {
     title: 'Personal',
-    label: 'Personal'
+    label: 'Personal',
+    role: 'User,Admin',
   },
   {
     title: 'My Dashboard',
     href: '/personal/dashboard',
     icon: 'dashboard',
-    label: 'My Dashboard'
+    label: 'My Dashboard',
+    role: 'User,Admin',
   },
   {
     title: 'Team Board',
     href: '/dashboard/kanban',
     icon: 'kanban',
-    label: 'Team Board'
+    label: 'Team Board',
+    role: 'User,Admin',
   },
   {
     title: 'Admin',
-    label: 'Admin'
+    label: 'Admin',
+    role: 'Admin',
   },
   {
     title: 'Dashboard',
     href: '/dashboard',
     icon: 'dashboard',
-    label: 'Dashboard'
+    label: 'Dashboard',
+    role: 'Admin',
   },
   {
     title: 'Employee',
     href: '/dashboard/employee',
     icon: 'users',
-    label: 'employee'
+    label: 'employee',
+    role: 'Admin',
   },
   // {
   //   title: 'Pegawai',
@@ -393,7 +399,8 @@ export const navItems: NavItem[] = [
     title: 'Kehadiran',
     href: '/dashboard/kehadiran',
     icon: 'userCheck',
-    label: 'Kehadiran'
+    label: 'Kehadiran',
+    role: 'Admin',
   },
   // {
   //   title: 'User',

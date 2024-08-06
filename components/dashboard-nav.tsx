@@ -29,12 +29,14 @@ interface DashboardNavProps {
   items: NavItem[];
   setOpen?: Dispatch<SetStateAction<boolean>>;
   isMobileNav?: boolean;
+  role?: string;
 }
 
 export function DashboardNav({
   items,
   setOpen,
-  isMobileNav = false
+  isMobileNav = false,
+  role,
 }: DashboardNavProps) {
   const path = usePathname();
   const { isMinimized } = useSidebar();
@@ -48,11 +50,12 @@ export function DashboardNav({
       <TooltipProvider>
         {items.map((item, index) => {
           const Icon = Icons[item.icon || 'arrowRight'];
+          const itemRole = item.role?.indexOf(role ?? '');
           return (
-            item.label && (
+            item.label && itemRole !== -1 && (
               <Tooltip key={index}>
                 <TooltipTrigger asChild>
-                {item.href && (
+                {item.href && itemRole !== -1 && (
                   <Link
                     href={item.disabled ? '/' : item.href}
                     className={cn(
@@ -82,7 +85,7 @@ export function DashboardNav({
                 >
                   {item.title}
                 </TooltipContent>
-                {!item.href && (
+                {!item.href && itemRole !== -1 && (
                     <span className="ml-3 truncate">{item.title}</span>
                 )}
               </Tooltip>

@@ -1,5 +1,8 @@
 import Header from '@/components/layout/header';
 import Sidebar from '@/components/layout/sidebar';
+import { getCurrentUser } from '@/utils/supabase/user';
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,11 +10,25 @@ export const metadata: Metadata = {
   description: 'Basic dashboard with Next.js and Shadcn'
 };
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = getCurrentUser();
+  const supabase = createClient();
+
+  let { data: employee, error: employeeError } = await supabase
+    .from('employees')
+    .select()
+    .eq('user_id', (await currentUser).id)
+
+  const role = employee?.[0]?.role
+
+  if(role !== 'Admin'){
+    redirect(`/personal/dashboard`); 
+  }
+  
   return (
     <>
       <Header />
