@@ -9,12 +9,12 @@ export const columns: ColumnDef<Kehadiran>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'id',
-    header: 'ID'
-  },
-  {
-    accessorKey: 'name',
-    header: 'NAME'
+    accessorKey: 'created_at',
+    header: 'DATE',
+    cell: (info:any) => {
+      const date = new Date(info.getValue());
+      return date.toLocaleDateString('en-CA'); // returns '2024-08-07'
+    },
   },
   {
     accessorKey: 'status',

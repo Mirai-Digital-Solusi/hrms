@@ -1,7 +1,6 @@
 import BreadCrumb from '@/components/breadcrumb';
 import { NavigationKehadiran } from '@/components/navigation-menu/navigation-kehadiran/kehadiran';
 import { kehadiranNavItems } from '@/constants/data';
-// import { createClient } from '@supabase/supabase-js'
 import { createClient } from '@/utils/supabase/server'
 import { columns } from '@/components/tables/kehadiran/main/list-approval/columns';
 import { ListApprovalKehadiranClient } from '@/components/tables/kehadiran/main/list-approval/attendance-approval-table';
@@ -9,7 +8,6 @@ import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { ApprovalAttendances } from '@/constants/data';
-// import { Database } from '@/types/supabase';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';

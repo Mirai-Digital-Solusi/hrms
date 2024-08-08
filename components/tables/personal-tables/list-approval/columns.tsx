@@ -9,16 +9,16 @@ export const columns: ColumnDef<ApprovalAttendances>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'id',
-    header: 'ID'
-  },
-  {
-    accessorKey: 'name',
-    header: 'NAME'
+    accessorKey: 'created_at',
+    header: 'DATE',
+    cell: (info:any) => {
+      const date = new Date(info.getValue());
+      return date.toLocaleDateString('en-CA'); // returns '2024-08-07'
+    },
   },
   {
     accessorKey: 'date_request',
-    header: 'DATE'
+    header: 'REQUESTED DATE'
   },
   {
     accessorKey: 'type',
@@ -27,5 +27,9 @@ export const columns: ColumnDef<ApprovalAttendances>[] = [
   {
     accessorKey: 'status',
     header: 'STATUS'
+  },
+  {
+    accessorKey: 'reason',
+    header: 'REASON'
   },
 ];
