@@ -8,7 +8,7 @@ import { ListApprovalKehadiranClient } from '@/components/tables/kehadiran/main/
 import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { Kehadiran } from '@/constants/data';
+import { ApprovalAttendances } from '@/constants/data';
 // import { Database } from '@/types/supabase';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
@@ -50,7 +50,7 @@ export default async function page({ searchParams }: paramsProps) {
   }
 
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const attendance: Kehadiran[] = data ?? [];
+  const attendance: ApprovalAttendances[] = data ?? [];
   return (
     <>
       <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
