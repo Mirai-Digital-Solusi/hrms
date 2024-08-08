@@ -318,36 +318,36 @@ export const kehadiranNavItems: KehadiranNavItem[] = [
       }
     ]
   },
-  {
-    title: 'Overtime',
-    subNav: [
-      {
-        href: '/dashboard/kehadiran/overtime',
-        label: 'Overtime List',
-        description: 'List all data attendance'
-      },
-      {
-        href: '/dashboard/kehadiran/overtime/approval',
-        label: 'Approval',
-        description: 'List all overtime request'
-      }
-    ]
-  },
-  {
-    title: 'Time-off',
-    subNav: [
-      {
-        href: '/dashboard/kehadiran/leave',
-        label: 'Time-off List',
-        description: 'List all data attendance'
-      },
-      {
-        href: '/dashboard/kehadiran/leave/approval',
-        label: 'Approval',
-        description: 'List all time-off request'
-      }
-    ]
-  }
+  // {
+  //   title: 'Overtime',
+  //   subNav: [
+  //     {
+  //       href: '/dashboard/kehadiran/overtime',
+  //       label: 'Overtime List',
+  //       description: 'List all data attendance'
+  //     },
+  //     {
+  //       href: '/dashboard/kehadiran/overtime/approval',
+  //       label: 'Approval',
+  //       description: 'List all overtime request'
+  //     }
+  //   ]
+  // },
+  // {
+  //   title: 'Time-off',
+  //   subNav: [
+  //     {
+  //       href: '/dashboard/kehadiran/leave',
+  //       label: 'Time-off List',
+  //       description: 'List all data attendance'
+  //     },
+  //     {
+  //       href: '/dashboard/kehadiran/leave/approval',
+  //       label: 'Approval',
+  //       description: 'List all time-off request'
+  //     }
+  //   ]
+  // }
 ];
 
 export const navItems: NavItem[] = [
@@ -365,7 +365,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: 'Team Board',
-    href: '/dashboard/kanban',
+    href: '/personal/kanban',
     icon: 'kanban',
     label: 'Team Board',
     role: 'User,Admin',
