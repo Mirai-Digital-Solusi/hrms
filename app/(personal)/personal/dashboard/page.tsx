@@ -28,6 +28,8 @@ export default async function page() {
   const page = 1;
   const pageLimit = 10;
   const offset = (page - 1) * pageLimit;
+  const currentMonth = new Date().getMonth() + 1; // get current month (0-11) and add 1
+  const currentYear = new Date().getFullYear();
 
   let { data: employee, error: employeeError } = await supabase
     .from('employees')
@@ -37,7 +39,23 @@ export default async function page() {
   const { count } = await supabase
     .from('attendances')
     .select('id', { count: 'exact', head: true })
-    .ilike('name', `%${employee?.[0]?.name}%`);;
+    .ilike('name', `%${employee?.[0]?.name}%`);
+
+  const { count:lateCount} = await supabase
+    .from('attendances')
+    .select('id', { count: 'exact', head: true })
+    .gte('created_at', `${currentYear}-${currentMonth}-01`)
+    .lte('created_at', `${currentYear}-${currentMonth + 1}-01`)
+    .like('status', 'Terlambat')
+    .ilike('name', `%${employee?.[0]?.name}%`);
+
+  const { count:soonCount} = await supabase
+    .from('attendances')
+    .select('id', { count: 'exact', head: true })
+    .gte('created_at', `${currentYear}-${currentMonth}-01`)
+    .lte('created_at', `${currentYear}-${currentMonth + 1}-01`)
+    .like('status', 'Pulang Lebih Awal')
+    .ilike('name', `%${employee?.[0]?.name}%`);
 
   const totalUsers = Math.ceil(count ?? 0 / 10);
 
@@ -107,19 +125,20 @@ export default async function page() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Keterlambatan
+                      Jam Masuk Tidak Sesuai
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">0</div>
-                    <p className="text-xs text-muted-foreground">
+                    <div><div className="text-2xl font-bold">{lateCount}</div> Keterlambatan</div>
+                    <div><div className="text-2xl font-bold">{soonCount}</div> Pulang Lebih Awal</div>
+                    {/* <p className="text-xs text-muted-foreground">
                       Selamat Anda Tepat Waktu
-                    </p>
+                    </p> */}
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="place-content-center">
                   <CardHeader className="flex place-content-center flex-row">
-                    <CardTitle className="text-sm font-medium">
+                    <CardTitle className="text-sm font-medium content-evenly">
                       Pengajuan Kehadiran
                     </CardTitle>
                   </CardHeader>
